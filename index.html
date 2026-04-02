@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Our Love Story</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#fcf2f4">
+  <meta name="description" content="A beautiful memory timeline of our love story.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Background Floating Elements -->
+  <div class="bg-elements">
+    <div class="float-item f1">❤️</div>
+    <div class="float-item f2">🌸</div>
+    <div class="float-item f3">✨</div>
+    <div class="float-item f4">❤️</div>
+    <div class="float-item f5">💖</div>
+  </div>
+
+  <header class="hero">
+    <h1 class="story-of">Story Of</h1>
+    <h2 class="couple-names">Boy Name <span class="heart-icon">❤️</span> Girl Name</h2>
+  </header>
+
+  <section class="carousel-section">
+    <div class="carousel-container">
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </section>
+
+  <section class="timeline-section">
+    <!-- Top connector headers -->
+    <div class="timeline-header-container">
+      <div class="person left-person">
+        <h3>LAKSHMANA PRASATH</h3>
+        <p>06.09.1998</p>
+      </div>
+      <div class="horizontal-line-connector">
+        <div class="line-left"></div>
+        <div class="line-right"></div>
+      </div>
+      <div class="person right-person">
+        <h3>PRADEEPA.N</h3>
+        <p>18.08.2001</p>
+      </div>
+    </div>
+
+    <!-- Vertical Timeline structure -->
+    <div class="timeline-container">
+      <div class="vertical-line"></div>
+      <div class="memories-list" id="memoriesList">
+        <!-- Memories injected via JS -->
+      </div>
+    </div>
+  </section>
+
+  <section class="footer-cta">
+    <h2 class="final-text" id="finalText">To be continued...</h2>
+    <p class="install-hint">Double tap to install our app 📱</p>
+  </section>
+
+  <!-- Memory Modal -->
+  <div id="memoryModal" class="modal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeModal">&times;</button>
+      <h3 id="modalTitle" class="modal-title">Title</h3>
+      <p id="modalDate" class="modal-date">Date</p>
+      
+      <div class="modal-scrollable-content">
+        <div id="modalGallery" class="modal-gallery">
+          <!-- Injected via JS -->
+        </div>
+        
+        <div class="modal-details">
+          <p id="modalDesc" class="modal-desc">Description</p>
+          <div id="modalLocation" class="modal-location">📍 <span id="modalLocText">Location</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PWA Install Dialog -->
+  <div id="pwaDialog" class="pwa-dialog hidden">
+    <div class="pwa-dialog-content">
+      <h3>Install Our Story 💖</h3>
+      <p>Keep our memory timeline as an app on your home screen!</p>
+      <div class="pwa-actions">
+        <button id="pwaCancel" class="btn btn-secondary">Cancel</button>
+        <button id="pwaInstall" class="btn btn-primary">Install</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
