@@ -4,15 +4,15 @@
 
 // ──────── DATA ────────
 const carouselImages = [
-  'https://picsum.photos/seed/love1/520/640',
-  'https://picsum.photos/seed/love2/520/640',
-  'https://picsum.photos/seed/love3/520/640',
-  'https://picsum.photos/seed/love4/520/640',
-  'https://picsum.photos/seed/love5/520/640',
-  'https://picsum.photos/seed/love6/520/640',
-  'https://picsum.photos/seed/love7/520/640',
-  'https://picsum.photos/seed/love8/520/640',
+  './assets/wedding.png',
+  './assets/first call.png',
+  './assets/first meet.png',
+  './assets/engagement.png',
+  './assets/movie.png',
+  './assets/anniversary.png',
+  
 ];
+
 
 const memories = [
   {
@@ -22,8 +22,8 @@ const memories = [
     description: "The first phone call that started it all. Nervous voices, endless laughter, and a connection that felt like destiny. Hours passed like minutes.",
     location: "Chennai",
     images: [
-      "https://picsum.photos/seed/mem1a/600/500",
-      "https://picsum.photos/seed/mem1b/600/500"
+      "./assets/first call.png",
+      "./assets/first call.png"
     ]
   },
   {
@@ -33,9 +33,9 @@ const memories = [
     description: "Our eyes met for the very first time. The world stood still. Every moment felt magical, like a scene from a beautiful love story.",
     location: "Chennai",
     images: [
-      "https://picsum.photos/seed/mem2a/600/500",
-      "https://picsum.photos/seed/mem2b/600/500",
-      "https://picsum.photos/seed/mem2c/600/500"
+      "./assets/first meet.png",
+      "./assets/first meet.png",
+      "./assets/first meet.png"
     ]
   },
   {
@@ -45,8 +45,8 @@ const memories = [
     description: "A beautiful ceremony where families came together and two souls were promised to each other. Surrounded by love, blessings, and joyful tears.",
     location: "Chennai",
     images: [
-      "https://picsum.photos/seed/mem3a/600/500",
-      "https://picsum.photos/seed/mem3b/600/500"
+      "./assets/engagement.png",
+      "./assets/engagement.png"
     ]
   },
   {
@@ -56,7 +56,7 @@ const memories = [
     description: "Our first movie date together! Sharing popcorn, holding hands in the dark, and stealing glances. A memory we'll treasure forever.",
     location: "Chennai",
     images: [
-      "https://picsum.photos/seed/mem4a/600/500"
+      "./assets/movie.png"
     ]
   },
   {
@@ -66,9 +66,9 @@ const memories = [
     description: "The most beautiful day of our lives. Two hearts became one in a celebration of love, family, and new beginnings. Our forever started here. ❤️",
     location: "Chennai",
     images: [
-      "https://picsum.photos/seed/mem5a/600/500",
-      "https://picsum.photos/seed/mem5b/600/500",
-      "https://picsum.photos/seed/mem5c/600/500"
+      "./assets/wedding.png",
+      "./assets/wedding.png",
+      "./assets/wedding.png"
     ]
   },
   {
@@ -78,8 +78,8 @@ const memories = [
     description: "One year of laughter, love, growth, and togetherness. Celebrating 365 days of our beautiful journey together.",
     location: "Chennai",
     images: [
-      "https://picsum.photos/seed/mem6a/600/500",
-      "https://picsum.photos/seed/mem6b/600/500"
+      "./assets/anniversary.png",
+      "./assets/anniversary.png"
     ]
   }
 ];
