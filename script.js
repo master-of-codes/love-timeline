@@ -114,18 +114,108 @@ const memories = [
     track.appendChild(slide);
   });
 
-  // Touch swipe support
+// Enhanced touch drag support with momentum
+  let isDragging = false;
   let startX = 0;
-  let scrollLeft = 0;
+  let currentX = 0;
+  let initialScrollLeft = 0;
+  let velocity = 0;
+  let rafId = null;
+  const container = track.parentElement;
+  const minDragDistance = 10;
+  const friction = 0.95;
+  const maxVelocity = 20;
+
+  // Touch events
   track.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].pageX;
-    scrollLeft = track.parentElement.scrollLeft;
+    isDragging = true;
+    startX = currentX = e.touches[0].pageX;
+    initialScrollLeft = container.scrollLeft;
     track.style.animationPlayState = 'paused';
+    
+    // Cancel any ongoing momentum
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
   }, { passive: true });
 
+  track.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    
+    currentX = e.touches[0].pageX;
+    const deltaX = currentX - startX;
+    
+    // Update scroll position
+    container.scrollLeft = initialScrollLeft - deltaX;
+    
+    // Calculate velocity (simple last position diff)
+    velocity = startX - currentX;
+    startX = currentX;
+  }, { passive: false });
+
   track.addEventListener('touchend', () => {
-    track.style.animationPlayState = 'running';
+    if (!isDragging) return;
+    isDragging = false;
+    
+    // Apply momentum if enough velocity
+    if (Math.abs(velocity) > 2) {
+      momentumScroll();
+    }
+    
+    // Resume animation after short delay
+    setTimeout(() => {
+      track.style.animationPlayState = 'running';
+    }, 150);
   }, { passive: true });
+
+  // Mouse drag support for desktop testing
+  track.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = currentX = e.clientX;
+    initialScrollLeft = container.scrollLeft;
+    track.style.animationPlayState = 'paused';
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseEnd);
+  });
+
+  function onMouseMove(e) {
+    if (!isDragging) return;
+    currentX = e.clientX;
+    const deltaX = currentX - startX;
+    container.scrollLeft = initialScrollLeft - deltaX;
+    velocity = startX - currentX;
+    startX = currentX;
+  }
+
+  function onMouseEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    if (Math.abs(velocity) > 2) momentumScroll();
+    setTimeout(() => { track.style.animationPlayState = 'running'; }, 150);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseEnd);
+  }
+
+  // Momentum scrolling
+  function momentumScroll() {
+    let momentumVelocity = velocity;
+    
+    function animate() {
+      if (Math.abs(momentumVelocity) < 0.5) {
+        rafId = null;
+        return;
+      }
+      
+      container.scrollLeft -= momentumVelocity;
+      momentumVelocity *= friction;
+      
+      rafId = requestAnimationFrame(animate);
+    }
+    
+    animate();
+  }
 })();
 
 // ──────── TIMELINE RENDERING ────────
@@ -384,6 +474,76 @@ document.getElementById('pwaInstall').addEventListener('click', async () => {
   document.getElementById('pwaDialog').classList.add('hidden');
 });
 
+// ──────── AUDIO CONTROLS ────────
+(function initAudio() {
+  const audio = document.getElementById('bgMusic');
+  const toggle = document.getElementById('audioToggle');
+  const icon = document.getElementById('audioIcon');
+
+  if (!audio || !toggle || !icon) return;
+
+  let isPlaying = false;
+
+  // Icon toggle function
+  function updateIcon() {
+    if (isPlaying) {
+      // Pause icon
+      icon.innerHTML = `
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      `;
+    } else {
+      // Play icon
+      icon.innerHTML = `
+        <path d="M8 5v14l11-7z"/>
+      `;
+    }
+  }
+
+  // Toggle play/pause
+  toggle.addEventListener('click', async () => {
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      try {
+        await audio.play();
+      } catch (err) {
+        console.log('Autoplay prevented:', err);
+        // Fallback: don't change state if can't play
+        return;
+      }
+    }
+    isPlaying = !isPlaying;
+    updateIcon();
+  });
+
+  // Auto-play on load (with user gesture fallback)
+  window.addEventListener('load', async () => {
+    try {
+      await audio.play();
+      isPlaying = true;
+      updateIcon();
+    } catch (err) {
+      console.log('Autoplay prevented, waiting for user interaction');
+      updateIcon(); // Show play icon
+    }
+  });
+
+  // Handle audio events
+  audio.addEventListener('play', () => {
+    isPlaying = true;
+    updateIcon();
+  });
+  audio.addEventListener('pause', () => {
+    isPlaying = false;
+    updateIcon();
+  });
+  audio.addEventListener('ended', () => {
+    isPlaying = false;
+    updateIcon();
+  });
+})();
+
+
 // ──────── SERVICE WORKER REGISTRATION ────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -392,3 +552,4 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('SW registration failed:', err));
   });
 }
+

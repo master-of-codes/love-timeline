@@ -66,6 +66,17 @@
     <p class="install-hint">Double tap to install our app 📱</p>
   </section>
 
+  <!-- Audio Toggle Button -->
+  <button id="audioToggle" class="audio-toggle" aria-label="Toggle background music">
+    <svg id="audioIcon" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+      <!-- Play icon (default) -->
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+  </button>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" src="./assets/music.mp3" loop preload="auto"></audio>
+
   <!-- Memory Modal -->
   <div id="memoryModal" class="modal">
     <div class="modal-content">
