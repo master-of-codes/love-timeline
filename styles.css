@@ -268,7 +268,7 @@ body {
 /* Connector dot on timeline */
 .memory-item::before {
   content: '❤️';
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   position: absolute;
   left: 50%;
   top: 20px;
@@ -277,40 +277,18 @@ body {
   filter: drop-shadow(0 2px 6px rgba(232, 83, 109, 0.3));
 }
 
-/* Horizontal connector line from dot to card */
-.memory-item::after {
-  content: '';
-  position: absolute;
-  top: 28px;
-  height: 2px;
-  background: var(--accent-pink);
-  z-index: 2;
-}
 
-.memory-item.left::after {
-  right: 50%;
-  width: calc(50% - 170px); /* Adjust based on max-card width */
-  max-width: 60px;
-  transform: translateX(8px);
-}
-
-.memory-item.right::after {
-  left: 50%;
-  width: calc(50% - 170px);
-  max-width: 60px;
-  transform: translateX(-8px);
-}
 
 /* LEFT card */
 .memory-item.left {
   justify-content: flex-start;
-  padding-right: calc(50% + 40px);
+  padding-right: calc(50% + 8px);
 }
 
 /* RIGHT card */
 .memory-item.right {
   justify-content: flex-end;
-  padding-left: calc(50% + 40px);
+  padding-left: calc(50% + 8px);
 }
 
 /* ---- Memory Card ---- */
@@ -390,7 +368,7 @@ body {
 
 .modal-content {
   background: var(--white);
-  border-radius: 0; /* Removed rounded corners */
+  border-radius: 20px;
   max-width: 520px;
   width: 92%;
   max-height: 85vh;
@@ -448,7 +426,8 @@ body {
 .modal-gallery {
   position: relative;
   width: 100%;
-  aspect-ratio: 4/3;
+  height: 60vh;
+  max-height: 400px;
   overflow: hidden;
   background: var(--bg-secondary);
 }
@@ -456,15 +435,17 @@ body {
 .modal-gallery img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   position: absolute;
   top: 0; left: 0;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transform: translateX(100%);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .modal-gallery img.gallery-active {
   opacity: 1;
+  transform: translateX(0);
 }
 
 .gallery-dots {
@@ -475,8 +456,8 @@ body {
 }
 
 .gallery-dot {
-  width: 8px; height: 8px;
-  border-radius: 0; /* Removed rounded corners */
+  width: 10px; height: 10px;
+  border-radius: 50%;
   background: var(--accent-blush);
   cursor: pointer;
   transition: background 0.3s, transform 0.3s;

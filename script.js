@@ -225,6 +225,75 @@ function openModal(memory) {
   // Show modal
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+
+  // Add swipe and keyboard support
+  initGalleryControls();
+}
+
+function initGalleryControls() {
+  const modal = document.getElementById('memoryModal');
+  const galleryContainer = document.querySelector('.modal-gallery').parentElement;
+
+  // Keyboard navigation
+  const handleKeydown = (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prev = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+      goToSlide(prev);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      const next = (currentGalleryIndex + 1) % currentGalleryImages.length;
+      goToSlide(next);
+    }
+  };
+
+  modal.addEventListener('keydown', handleKeydown);
+
+  // Swipe support
+  let startX = 0;
+  let startY = 0;
+  let isSwiping = false;
+
+  const handleTouchStart = (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isSwiping = true;
+    clearInterval(galleryAutoTimer);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isSwiping) return;
+    e.preventDefault();
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!isSwiping) return;
+    isSwiping = false;
+
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
+    const diffX = startX - endX;
+    const diffY = startY - endY;
+    const minSwipeDistance = 50;
+
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > minSwipeDistance) {
+      if (diffX > 0) {
+        // Swipe left - next image
+        const next = (currentGalleryIndex + 1) % currentGalleryImages.length;
+        goToSlide(next);
+      } else {
+        // Swipe right - prev image
+        const prev = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+        goToSlide(prev);
+      }
+    }
+
+    startGalleryAuto();
+  };
+
+  galleryContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+  galleryContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+  galleryContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
 }
 
 function goToSlide(index) {
